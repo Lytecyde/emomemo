@@ -21,3 +21,4 @@ For a bit of extra fun:
 - tell a story of what happened when you last felt the two emotions
 - act out the emotion you pick
 - combine one of previous player's emotion with one of yours and tell a story why they might be connected, 
++ pick one other player who will then have to guess the emotion you mime with your facial expression
