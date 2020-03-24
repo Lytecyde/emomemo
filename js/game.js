@@ -6,13 +6,13 @@ var game = {
     ids: [[]],
     isFlippedArray: [[]],
     NO_EFFECT_ONCLICK: 1,
-    ONCLICK_WORKS: 2,
+    ONCLICK: 2,
     status: 2,
     timeForCheckStart: 0,
     nowTime: 0,
     emojini: [],
-    emojiOne: "",
-    emojiTwo: "",
+    emojiFirst: "",
+    emojiSecond: "",
     pimpomList: []
 }
 
@@ -109,7 +109,7 @@ game.createDIVs = function () {
 };
 
 game.DIVids = function () {
-    game.ids = game.twoDArray();
+    game.ids = game.twoDimensionalArray();
     for (let x = 0; x < 6; x++) {
         for (let y = 0; y < 6; y++) {
             game.ids[x][y] = "x" + x + "y" + y;
@@ -117,7 +117,7 @@ game.DIVids = function () {
     }
 };
 
-game.twoDArray = function () {
+game.twoDimensionalArray = function () {
     var arr = [];
     while (arr.length < 6) {
         arr.push([]);
@@ -139,7 +139,7 @@ game.flip = async function (e) {
             game.timeForCheckStart = new Date().getTime();
             game.isFlippedArray[x][y] = true;
             game.showEmoji(x,y);
-            game.emojiOne = game.emojini[game.cardIndex(x,y)];
+            game.emojiFirst = game.emojini[game.cardIndex(x,y)];
             game.showFlipped();
             game.showPIMPOMS();
             return;
@@ -153,7 +153,7 @@ game.flip = async function (e) {
             n.style = "background: aqua";
             var duration = (new Date().getTime()) - game.timeForCheckStart;
             console.log("found in " + duration);
-            game.emojiTwo = game.emojini[game.cardIndex(x,y)];
+            game.emojiSecond = game.emojini[game.cardIndex(x,y)];
             if(!game.isSame()) {
                 await sleep(3800);
             }
@@ -172,7 +172,7 @@ game.flip = async function (e) {
 };
 
 game.isSame = function(){
-    return game.emojiOne === game.emojiTwo;
+    return game.emojiFirst === game.emojiSecond;
 }
 
 game.isOneofPIMPOM =  function (emo) {
@@ -200,7 +200,7 @@ game.showPIMPOMS = function(){
 game.checkBoth = function () {
     console.log("checked:");
     if(game.isSame()) {
-        game.pimpomList.push(game.emojiOne);
+        game.pimpomList.push(game.emojiFirst);
         console.log("PIMPOM");
     }
 }
@@ -310,7 +310,7 @@ game.checkFlips = function () {
     console.log("checking flips" + count);
     game.createIsFlippedArray();
     game.unflipAll();
-    game.status = game.ONCLICK_WORKS;
+    game.status = game.ONCLICK;
 };
 
 game.joinArray = function () {
@@ -323,7 +323,7 @@ game.joinArray = function () {
 }
 
 game.createIsFlippedArray = function () {
-    game.isFlippedArray = game.twoDArray();
+    game.isFlippedArray = game.twoDimensionalArray();
     for (let x = 0; x < 6; x++) {
         for (let y = 0; y < 6; y++) {
             game.isFlippedArray[x][y] = false;
