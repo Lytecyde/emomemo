@@ -156,7 +156,7 @@ game.onFirstFlip = function (x, y) {
         game.showEmoji(x,y);
         game.firstEmojiCard = game.emojiArray[game.cardIndex(x,y)];
         game.showFlipped();
-        game.showPIMPOMS();
+        game.showMatches();
         return true;
     }
     return false;
@@ -182,7 +182,7 @@ game.onSecondFlip = async function (x, y) {
         game.hideAllEmoji();
         game.resetTable();
         game.showFlipped();
-        game.showPIMPOMS();  
+        game.showMatches();  
     }
 }
 
@@ -199,7 +199,7 @@ game.isOneofPIMPOM =  function (emo) {
     return false;
 };
 
-game.showPIMPOMS = function(){
+game.showMatches = function(){
     for (let x = 0; x < game.data.maxColumns; x++) {
         for (let y = 0; y < game.data.maxRows; y++) {
             var currentEmo = game.emojiArray[game.cardIndex(x, y)];
@@ -234,7 +234,7 @@ game.cardIndex = function (x0, y0) {
 };
 
 game.showEmoji = function (x, y) {
-    var cardIndex = game.cardIndex(x,y);
+    var cardIndex = game.cardIndex(x, y);
     console.log(cardIndex+" "+ x + " " + y);
     document.getElementById("x" + x + "y" +y).innerHTML =
     game.emojiArray[cardIndex];
@@ -246,7 +246,7 @@ game.showAllEmoji = function () {
             game.showEmoji(x,y);
         }
     }
-}
+};
 
 game.hideAllEmoji = function() {
     for (let x = 0; x < 6; x++) {
@@ -254,12 +254,16 @@ game.hideAllEmoji = function() {
             document.getElementById("x" + x + "y" +y).innerHTML = "";
         }
     }
-}
+};
+
+game.flipCheck = function (x, y) {
+    return game.isFlippedArray[x][y] &&
+    x < game.data.maxColumns &&
+    y < game.data.maxRows;
+};
 
 game.flipIt = function (x, y) {
-    if (game.isFlippedArray[x][y] &&
-        x < 6 &&
-        y < 6) {
+    if (game.flipCheck(x, y)) {
         document.getElementById("x" + x + "y" + y).style = "background: aqua";
         return;
     }
@@ -267,9 +271,7 @@ game.flipIt = function (x, y) {
 };
 
 game.unflipIt = function (x, y) {
-    if (!game.isFlippedArray[x][y] &&
-        x < 6 &&
-        y < 6) {
+    if (! game.flipCheck(x, y)) {
         var id = "x" + x + "y" + y;
         document.getElementById(id).style = "background: black";
         return;
