@@ -76,7 +76,6 @@ game.shuffle = function(array) {
     while (0 !== currentIndex) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -85,24 +84,26 @@ game.shuffle = function(array) {
     return array;
 };
 
+game.HTMLcodeDIV = function (x, y) {
+    return "<div class=\"card\" id=" +
+    "\"" +
+    game.ids[x][y] +
+    "\" " +
+   "onclick=\"game.flip(event);\"" +
+    ">" +
+    "</div>";
+};
+
 game.createDIVs = function () {
     var divs = "";
     var columnBegin = "<div class=\"column\" id";
     var columnEnd = "</div>";
-    var onclick = "onclick=\"game.flip(event);\"";
     game.makeIDsForGameTable();
     var cardIndex = 0;
     for (let x = 0; x < game.data.maxColumns; x++) {
         divs = divs + columnBegin + "=\"c" + x + "\">";
         for (let y = 0; y < game.data.maxRows; y++) {
-            divs = divs +
-                "<div class=\"card\" id=" +
-                "\"" +
-                game.ids[x][y] +
-                "\" " +
-                onclick +
-                ">" +
-                "</div>";
+            divs = divs + game.HTMLcodeDIV(x, y);    
             cardIndex++;
         }
         divs = divs + columnEnd;
@@ -299,15 +300,19 @@ game.turnDownAll = function () {
             document.getElementById(id).style = "background: black";
         }
     }
-}
+};
+
+game.setAquaWhenFlipped = function (x, y) {
+    if(game.isFlippedArray[x][y]) {
+        var id = "x" + x + "y" + y;
+        document.getElementById(id).style = "background: aqua";
+    }
+};
 
 game.showFlipped = function () {
     for (let x = 0; x < game.data.maxColumns; x++) {
         for (let y = 0; y < game.data.maxRows; y++) {
-            if(game.isFlippedArray[x][y]){
-                var id = "x" + x + "y" + y;
-                document.getElementById(id).style = "background: aqua";
-            }
+            game.setAquaWhenFlipped();
         }
     }
 };
@@ -315,15 +320,14 @@ game.showFlipped = function () {
 game.countFlipped = function () {
     var count = 0;
     var all = game.joinArray();
-    var flippedOnes = all.filter(f => {
+    var flipped = all.filter(f => {
         if (f === true) { return "flipped" };
     });
-    count = flippedOnes.length;
+    count = flipped.length;
     return count;
 }
 
 game.checkFlips = function () {
-    var count = game.countFlipped();
     game.createIsFlippedArray();
     game.unflipAll();
     game.status = game.ONCLICK;
