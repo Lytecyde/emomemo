@@ -75,7 +75,7 @@ game.createTable = function () {
         var column = document.createElement("div");
         column.classNamed = "column";
         column.id = "column";
-        column.style.left = "" + (x * 100) + "px";
+        column.style.left = x * 100;
         tableDIV.appendChild(column);
         for (let y = 0; y < data.maxRows; y++) {
             var card = game.DIVcard(x, y);

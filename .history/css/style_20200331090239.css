@@ -1,17 +1,14 @@
 #table {
     position: absolute;
-    margin: 0 auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 600px;
+    width: 700px;
     height: 600px;
-    background-color: black;
+    margin: 0 auto;
+    margin-left: 350px;
+    text-align: center;
 }
 
 #column {
-    position: absolute;
+    position: relative;
 }
 
 .card-flip {
@@ -19,9 +16,6 @@
     background-color: aqua;
     width: 100px;
     height: 100px;
-    margin: 1px;
-    border-color: aqua;
-    border-radius: 4px;
 }
 
 .card {
@@ -31,21 +25,10 @@
     color:white;
     width: 100px;
     height: 100px;
-    margin: 1px;
-    border-color: aqua;
-    border-radius: 4px;
-}
-
-#column {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100px;
-    height: 600px;
 }
 
 #c0 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100px;
@@ -53,7 +36,7 @@
 }
 
 #c1 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 100px;
     width: 100px;
@@ -61,14 +44,14 @@
 }
 
 #c2 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 200px;
     width: 100px;
     height: 600px;
 }
 #c3 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 300px;
     width: 100px;
@@ -76,7 +59,7 @@
 }
 
 #c4 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 400px;
     width: 100px;
@@ -84,7 +67,7 @@
 }
 
 #c5 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 500px;
     width: 100px;
@@ -92,7 +75,7 @@
 }
 
 #c6 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 600pc; 
     width: 100px;
