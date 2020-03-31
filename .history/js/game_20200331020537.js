@@ -73,12 +73,12 @@ game.createTable = function () {
 
     for (let x = 0; x < data.maxColumns; x++) {
         var column = document.createElement("div");
-        column.classNamed = "column";
+        column.className = "column";
         column.id = "c" + x;
         tableDIV.appendChild(column);
         for (let y = 0; y < data.maxRows; y++) {
             var card = game.DIVcard(x, y);
-            column.appendChild(card);   
+            tableDIV.appendChild(card);   
         }
     }
 };

@@ -60,9 +60,11 @@ game.shuffle = function(array) {
 
 game.DIVcard = function (x, y) {
     var card = document.createElement("div");
-    var id =  game.ids[x][y];
+    var id =  "\"" +
+        game.ids[x][y] +
+        "\" ";
     card.id = id;
-    card.className = "card";
+    
     card.addEventListener('click', () => game.flip(id));
     return card;
 };
@@ -73,12 +75,12 @@ game.createTable = function () {
 
     for (let x = 0; x < data.maxColumns; x++) {
         var column = document.createElement("div");
-        column.classNamed = "column";
+        column.class = "column";
         column.id = "c" + x;
         tableDIV.appendChild(column);
         for (let y = 0; y < data.maxRows; y++) {
             var card = game.DIVcard(x, y);
-            column.appendChild(card);   
+            tableDIV.appendChild(card);   
         }
     }
 };

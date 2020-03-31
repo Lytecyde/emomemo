@@ -17,29 +17,19 @@ var game = {
     matchedCardsList: []
 }
 
-game.twoDimensionalArray = function () {
-    var arr = [];
-    while (arr.length < 6) {
-        arr.push([]);
-    }
-    return arr;
-};
-
-game.createIsFlippedArray = function () {
-    game.isFlippedArray = game.twoDimensionalArray();
-    for (let x = 0; x < 6; x++) {
-        for (let y = 0; y < 6; y++) {
-            game.isFlippedArray[x][y] = false;
-        }
-    }
-};
+game.data = data.data;
 
 game.onload = function () {
-    game.emojiArray = game.shuffle(data.doubleListOfEmoji);
+    game.emojiArray = game.shuffle(game.data.doubleListOfEmoji);
     console.log(game.emojiArray);
 
     game.createIsFlippedArray();
     game.createTable();
+};
+
+game.createTable = function () {
+    var table = document.getElementById("table");
+    table.innerHTML = game.createDIVs();
 };
 
 game.shuffle = function(array) {
@@ -58,46 +48,55 @@ game.shuffle = function(array) {
     return array;
 };
 
-game.DIVcard = function (x, y) {
-    var card = document.createElement("div");
-    var id =  game.ids[x][y];
-    card.id = id;
-    card.className = "card";
-    card.addEventListener('click', () => game.flip(id));
-    return card;
+game.HTMLcodeDIV = function (x, y) {
+    return "<div class=\"card\" id=" +
+    "\"" +
+    game.ids[x][y] +
+    "\" " +
+   "onclick=\"game.flip(event);\"" +
+    ">" +
+    "</div>";
 };
 
-game.createTable = function () {
+game.createDIVs = function () {
+    var divs = "";
+    var columnBegin = "<div class=\"column\" id";
+    var columnEnd = "</div>";
     game.makeIDsForGameTable();
-    var tableDIV = document.getElementById("table");
-
-    for (let x = 0; x < data.maxColumns; x++) {
-        var column = document.createElement("div");
-        column.classNamed = "column";
-        column.id = "c" + x;
-        tableDIV.appendChild(column);
-        for (let y = 0; y < data.maxRows; y++) {
-            var card = game.DIVcard(x, y);
-            column.appendChild(card);   
+    var cardIndex = 0;
+    for (let x = 0; x < game.data.maxColumns; x++) {
+        divs = divs + columnBegin + "=\"c" + x + "\">";
+        for (let y = 0; y < game.data.maxRows; y++) {
+            divs = divs + game.HTMLcodeDIV(x, y);    
+            cardIndex++;
         }
+        divs = divs + columnEnd;
     }
+    return divs;
 };
 
 game.makeIDsForGameTable = function () {
     game.ids = game.twoDimensionalArray();
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
+    for (let x = 0; x < 6; x++) {
+        for (let y = 0; y < 6; y++) {
             game.ids[x][y] = "x" + x + "y" + y;
         }
     }
 };
 
-game.flip = function (id) {
+game.twoDimensionalArray = function () {
+    var arr = [];
+    while (arr.length < 6) {
+        arr.push([]);
+    }
+    return arr;
+};
+
+game.flip = function (e) {
     var x = 0;
     var y = 0;
-    console.log(id);
-    x = (id).substring(1, 2);
-    y = (id).substring(3, 4);
+    x = (e.target.id).substring(1, 2);
+    y = (e.target.id).substring(3, 4);
     if (!game.isFlippedArray[x][y]) {
         if(game.onFirstFlip(x, y)) { 
             return;
@@ -166,8 +165,8 @@ game.isOneofPIMPOM =  function (emo) {
 };
 
 game.showMatches = function(){
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
+    for (let x = 0; x < game.data.maxColumns; x++) {
+        for (let y = 0; y < game.data.maxRows; y++) {
             var currentEmo = game.emojiArray[game.cardIndex(x, y)];
             console.log("currentemo:" + currentEmo);
             if(game.isOneofPIMPOM(currentEmo)) {
@@ -188,8 +187,8 @@ game.checkBoth = function () {
 
 game.cardIndex = function (x0, y0) {
     var n = 0;
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
+    for (let x = 0; x < 6; x++) {
+        for (let y = 0; y < 6; y++) {
             if(x == x0 && y == y0){
                 return n;
             }
@@ -201,7 +200,7 @@ game.cardIndex = function (x0, y0) {
 
 game.showEmoji = function (x, y) {
     var cardIndex = game.cardIndex(x, y);
-    console.log(cardIndex + " " + x + " " + y);
+    console.log(cardIndex+" "+ x + " " + y);
     document.getElementById("x" + x + "y" +y).innerHTML =
     game.emojiArray[cardIndex];
 }
@@ -224,8 +223,8 @@ game.hideAllEmoji = function() {
 
 game.flipCheck = function (x, y) {
     return game.isFlippedArray[x][y] &&
-    x < data.maxColumns &&
-    y < data.maxRows;
+    x < game.data.maxColumns &&
+    y < game.data.maxRows;
 };
 
 game.flipIt = function (x, y) {
@@ -259,8 +258,8 @@ game.unflipAll = function () {
 };
 
 game.turnDownAll = function () {
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
+    for (let x = 0; x < game.data.maxColumns; x++) {
+        for (let y = 0; y < game.data.maxRows; y++) {
             var id = "x" + x + "y" + y;
             document.getElementById(id).style = "background: black";
         }
@@ -275,9 +274,9 @@ game.setAquaWhenFlipped = function (x, y) {
 };
 
 game.showFlipped = function () {
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
-            game.setAquaWhenFlipped(x, y);
+    for (let x = 0; x < game.data.maxColumns; x++) {
+        for (let y = 0; y < game.data.maxRows; y++) {
+            game.setAquaWhenFlipped();
         }
     }
 };
@@ -307,7 +306,14 @@ game.joinArray = function () {
     return allFlips;
 }
 
-
+game.createIsFlippedArray = function () {
+    game.isFlippedArray = game.twoDimensionalArray();
+    for (let x = 0; x < 6; x++) {
+        for (let y = 0; y < 6; y++) {
+            game.isFlippedArray[x][y] = false;
+        }
+    }
+};
 
 var sleep = function (ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

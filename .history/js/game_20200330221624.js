@@ -34,6 +34,10 @@ game.createIsFlippedArray = function () {
     }
 };
 
+game.createTable = function () {
+    game.createDIVs();
+};
+
 game.onload = function () {
     game.emojiArray = game.shuffle(data.doubleListOfEmoji);
     console.log(game.emojiArray);
@@ -60,25 +64,29 @@ game.shuffle = function(array) {
 
 game.DIVcard = function (x, y) {
     var card = document.createElement("div");
-    var id =  game.ids[x][y];
+    var id =  "\"" +
+        game.ids[x][y] +
+        "\" ";
     card.id = id;
-    card.className = "card";
+    
     card.addEventListener('click', () => game.flip(id));
     return card;
 };
 
-game.createTable = function () {
+game.createDIVs = function () {
     game.makeIDsForGameTable();
+    var cardIndex = 0;
     var tableDIV = document.getElementById("table");
 
     for (let x = 0; x < data.maxColumns; x++) {
         var column = document.createElement("div");
-        column.classNamed = "column";
+        column.class = "column";
         column.id = "c" + x;
         tableDIV.appendChild(column);
         for (let y = 0; y < data.maxRows; y++) {
             var card = game.DIVcard(x, y);
-            column.appendChild(card);   
+            tableDIV.appendChild(card);   
+            cardIndex++;
         }
     }
 };
@@ -188,8 +196,8 @@ game.checkBoth = function () {
 
 game.cardIndex = function (x0, y0) {
     var n = 0;
-    for (let x = 0; x < data.maxColumns; x++) {
-        for (let y = 0; y < data.maxRows; y++) {
+    for (let x = 0; x < 6; x++) {
+        for (let y = 0; y < 6; y++) {
             if(x == x0 && y == y0){
                 return n;
             }
@@ -201,7 +209,7 @@ game.cardIndex = function (x0, y0) {
 
 game.showEmoji = function (x, y) {
     var cardIndex = game.cardIndex(x, y);
-    console.log(cardIndex + " " + x + " " + y);
+    console.log(cardIndex+" "+ x + " " + y);
     document.getElementById("x" + x + "y" +y).innerHTML =
     game.emojiArray[cardIndex];
 }
