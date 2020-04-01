@@ -1,5 +1,12 @@
 # emomemo
 emotion training game combined with the classic memory game
+I have also created a web version of this game in the classic folder
+just open the index.html file in the /html/ folder 
+click on the blackboard to begin the game
+
+## future
+
+potentially a face recognition feature with a camera
 
 ## Setup
 Print out two sets of game cards on a thicker paper .
